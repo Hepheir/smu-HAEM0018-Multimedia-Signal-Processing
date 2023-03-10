@@ -52,14 +52,18 @@ BOOL CImagePro_KimDongJooView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CImagePro_KimDongJooView 그리기
 
-void CImagePro_KimDongJooView::OnDraw(CDC* /*pDC*/)
+void CImagePro_KimDongJooView::OnDraw(CDC* pDC)
 {
 	CImagePro_KimDongJooDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	for (int y = 0; y < 256; y++) {
+		for (int x = 0; x < 256; x++) {
+			pDC->SetPixel(x, y, RGB(pDoc->inputImg[y][x], pDoc->inputImg[y][x], pDoc->inputImg[y][x]));
+		}
+	}
 }
 
 void CImagePro_KimDongJooView::OnInitialUpdate()
@@ -68,7 +72,8 @@ void CImagePro_KimDongJooView::OnInitialUpdate()
 
 	CSize sizeTotal;
 	// TODO: 이 뷰의 전체 크기를 계산합니다.
-	sizeTotal.cx = sizeTotal.cy = 100;
+	sizeTotal.cx = 2048;
+	sizeTotal.cy = 1024;
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 

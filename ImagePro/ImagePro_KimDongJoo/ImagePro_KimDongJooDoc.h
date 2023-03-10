@@ -14,6 +14,8 @@ protected: // serialization에서만 만들어집니다.
 
 // 특성입니다.
 public:
+	unsigned char inputImg[256][256];
+	unsigned char resultImg[256][256];
 
 // 작업입니다.
 public:

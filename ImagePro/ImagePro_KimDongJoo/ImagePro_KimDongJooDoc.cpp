@@ -55,13 +55,19 @@ BOOL CImagePro_KimDongJooDoc::OnNewDocument()
 
 void CImagePro_KimDongJooDoc::Serialize(CArchive& ar)
 {
-	if (ar.IsStoring())
+	if (ar.IsStoring() == TRUE)
 	{
-		// TODO: 여기에 저장 코드를 추가합니다.
+		ar.Write(resultImg, 256 * 256);
 	}
 	else
 	{
-		// TODO: 여기에 로딩 코드를 추가합니다.
+		CFile *fp = ar.GetFile();
+		if (fp->GetLength() == 256 * 256) {
+			ar.Read(inputImg, 256 * 256);
+		}
+		else {
+			AfxMessageBox("256x256 크기의 파일만 사용가능합니다.");
+		}
 	}
 }
 
