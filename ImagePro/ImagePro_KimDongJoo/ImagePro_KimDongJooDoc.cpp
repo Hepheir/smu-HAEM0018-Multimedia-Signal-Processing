@@ -48,9 +48,6 @@ BOOL CImagePro_KimDongJooDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-
-
 // CImagePro_KimDongJooDoc serialization
 
 void CImagePro_KimDongJooDoc::Serialize(CArchive& ar)
@@ -141,3 +138,96 @@ void CImagePro_KimDongJooDoc::Dump(CDumpContext& dc) const
 
 
 // CImagePro_KimDongJooDoc ¸í·É
+
+void CImagePro_KimDongJooDoc::PixelAdd()
+{
+	int value = 0;
+
+	for (int x = 0; x < 256; x++) {
+		for (int y = 0; y < 256; y++) {
+			value = inputImg[x][y] + 100;
+			if (value > 255) {
+				resultImg[x][y] = 255;
+			}
+			else {
+				resultImg[x][y] = value;
+			}
+		}
+	}
+}
+
+
+void CImagePro_KimDongJooDoc::PixelHistoEq()
+{
+	int x, y, i, k;
+	int acc_hist = 0;
+	float N = 256 * 256;
+	int hist[256], sum[256];
+
+	// initialize
+	for (k = 0; k < 256; k++) {
+		hist[k] = 0;
+	}
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			k = inputImg[y][x];
+			hist[k] += 1;
+		}
+	}
+
+	for (i = 0; i < 256; i++) {
+		acc_hist = acc_hist + hist[i];
+		sum[i] = acc_hist;
+	}
+
+	for (y = 0; y < 256; y++) {
+		for (x = 0; x < 256; x++) {
+			k = inputImg[y][x];
+			resultImg[y][x] = sum[k] / N * 255;
+		}
+	}
+}
+
+
+void CImagePro_KimDongJooDoc::PixelTwoImageAdd()
+{
+	int value = 0;
+
+	LoadTwoImages();
+
+	for (int y = 0; y < 256; y++) {
+		for (int x = 0; x < 256; x++) {
+			value = inputImg[y][x] + inputImg2[y][x];
+			if (value > 255) {
+				resultImg[y][x] = 255;
+			}
+			else {
+				resultImg[y][x] = value;
+			}
+		}
+	}
+}
+
+
+void CImagePro_KimDongJooDoc::LoadTwoImages()
+{
+	CFile file;
+	CFileDialog dlg(TRUE);
+
+	AfxMessageBox("Select the First Image");
+
+	if (dlg.DoModal() == IDOK) {
+		file.Open(dlg.GetPathName(), CFile::modeRead);
+		file.Read(inputImg, 256 * 256);
+		file.Close();
+	}
+
+	AfxMessageBox("Select the Second Image");
+
+	if (dlg.DoModal() == IDOK) {
+		file.Open(dlg.GetPathName(), CFile::modeRead);
+		file.Read(inputImg2, 256 * 256);
+		file.Close();
+	}
+}
