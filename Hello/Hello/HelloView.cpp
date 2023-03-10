@@ -28,6 +28,7 @@ BEGIN_MESSAGE_MAP(CHelloView, CView)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CHelloView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_COMMAND(ID_PRINT_HELLO, &CHelloView::OnPrintHello)
 END_MESSAGE_MAP()
 
 // CHelloView 생성/소멸
@@ -52,14 +53,14 @@ BOOL CHelloView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CHelloView 그리기
 
-void CHelloView::OnDraw(CDC* /*pDC*/)
+void CHelloView::OnDraw(CDC* pDC)
 {
 	CHelloDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	if (!pDoc)
 		return;
 
-	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
+	pDC->TextOut(100, 100, "첫 번째 영상처리 프로그램 예제입니다.");
 }
 
 
@@ -125,3 +126,8 @@ CHelloDoc* CHelloView::GetDocument() const // 디버그되지 않은 버전은 인라인으로 
 
 
 // CHelloView 메시지 처리기
+
+void CHelloView::OnPrintHello()
+{
+	AfxMessageBox("안녕하세요 여러분!!!");
+}
