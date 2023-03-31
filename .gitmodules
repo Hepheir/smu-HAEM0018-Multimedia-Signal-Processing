@@ -1,0 +1,4 @@
+[submodule "ImageProcessing"]
+	path = ImageProcessing
+	url = https://github.com/Hepheir/smu-HAEM0018-Multimedia-Signal-Processing-ImageProcessing
+	branch = master
